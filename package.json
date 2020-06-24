@@ -7,11 +7,18 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "clean": "react-native clean-project-auto && react-native start -- --reset-cache",
+    "clean-metro": "react-native start -- --reset-cache",
+    "install-all": "npm install && cd ios && pod install",
+    "link-ios": "cd ios && pod install"
   },
   "dependencies": {
     "react": "16.11.0",
-    "react-native": "0.62.2"
+    "react-native": "0.62.2",
+    "react-native-chart-kit": "^5.6.1",
+    "react-native-dom-parser": "^1.5.3",
+    "react-native-svg": "^12.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

@@ -24,20 +24,28 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { getData } from './dataService';
+import { getData, getUrl, getEnigmaNytimesData } from './dataService';
+
+// Components
+import Graph from './graph';
 
 const App: () => React$Node = () => {
   let data = null;
-  const url = 'https://covid19-lake.s3.us-east-2.amazonaws.com/rearc-covid-19-nyt-data-in-usa/json/us-counties/part-00000-99da90dc-5262-4d4f-a37c-500d842389db-c000.json';
-  getData(url).then((data) => {
-    console.log(data);
-    data = data;
-  });
+  let jsonUrl = null;
+  getEnigmaNytimesData().then( data => data = data);
 
   return (
-    <View>
-      <Text>Covid Data</Text>
-    </View>
+    <>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView>
+        <ScrollView>
+          <View>
+            <Text>Covid Data</Text>
+            <Graph data={data} />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 
