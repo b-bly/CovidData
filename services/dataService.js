@@ -17,7 +17,6 @@ export async function getData(url) {
     }
   }).filter(record => Object.keys(record).length !== 0)
   return jsonData;
-
 }
 
 export async function getUrl(url) {
@@ -28,13 +27,46 @@ export async function getUrl(url) {
   return urlPostfix;
 }
 
+// export async function getEnigmaNytimesData() {
+//   try {
+//     const urlPostfix = await getUrl(enigmaNytimesDataInUsaBucket);
+//     const url = `${s3BaseUrl}/${urlPostfix}`;
+//     const data = await getData(`${s3BaseUrl}/${urlPostfix}`);
+//     return data;
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
+
 export async function getEnigmaNytimesData() {
+  const nyTimesUrl = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv';
   try {
-    const urlPostfix = await getUrl(enigmaNytimesDataInUsaBucket);
-    const url = `${s3BaseUrl}/${urlPostfix}`;
-    const data = await getData(`${s3BaseUrl}/${urlPostfix}`);
-    return data;
+    const res = await fetch(nyTimesUrl);
+    const text = await res.text();
+    const jsonData = csvToJSON(text);
+    return jsonData;
   } catch (e) {
     console.log(e);
   }
+}
+
+
+function csvToJSON(csv) {
+  const lines = csv.split("\n");
+  const result = [];
+  const headers = lines[0].split(",");
+
+  for (var i = 1; i < lines.length; i++) {
+
+    const obj = {};
+    const currentline = lines[i].split(",");
+
+    for (var j = 0; j < headers.length; j++) {
+      obj[headers[j]] = currentline[j];
+    }
+    result.push(obj);
+  }
+
+  //return result; //JavaScript object
+  return result
 }

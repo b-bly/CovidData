@@ -24,19 +24,20 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { getData, getUrl, getEnigmaNytimesData } from './dataService';
-import { getDeathsByState } from './enigmaNytimesDataInUsaService'; 
+import { getData, getUrl, getEnigmaNytimesData } from './services/dataService';
+import { getDeathsByState } from './services/enigmaNytimesDataInUsaService'; 
 
 // Components
-import Graph from './graph';
+import Graph from './components/graph';
 
 const App: () => React$Node = () => {
   const [data, setData] = useState(null);
 
   if (!data) {
-    getEnigmaNytimesData().then(d => {
-      const graphData = getDeathsByState(d);
-      setData(graphData);
+    getEnigmaNytimesData().then(d => {      
+      getDeathsByState(d).then(graphData => {
+        setData(graphData);
+      });
     });
   }
 

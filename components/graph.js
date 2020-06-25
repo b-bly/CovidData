@@ -74,7 +74,6 @@ export default (props) => {
         verticalLabelRotation={20}
         fromZero="true"
         withVerticalLabels="true"
-        showValuesOnTopOfBars="false"
       />
         
         : 
