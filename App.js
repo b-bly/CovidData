@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -25,14 +25,20 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import { getData, getUrl, getEnigmaNytimesData } from './dataService';
+import { getDeathsByState } from './enigmaNytimesDataInUsaService'; 
 
 // Components
 import Graph from './graph';
 
 const App: () => React$Node = () => {
-  let data = null;
-  let jsonUrl = null;
-  getEnigmaNytimesData().then( data => data = data);
+  const [data, setData] = useState(null);
+
+  if (!data) {
+    getEnigmaNytimesData().then(d => {
+      const graphData = getDeathsByState(d);
+      setData(graphData);
+    });
+  }
 
   return (
     <>
@@ -134,3 +140,9 @@ export default App;
   </ScrollView>
 </SafeAreaView>
 </> */}
+
+
+// has recent info
+
+// world cases deaths testing
+// https://dj2taa9i652rf.cloudfront.net/

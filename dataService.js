@@ -9,7 +9,15 @@ const enigmaNytimesDataInUsaBucket = 'https://covid19-lake.s3.amazonaws.com/?del
 export async function getData(url) {
   const res = await fetch(url);
   const text = await res.text();
-  return JSON.parse(JSON.stringify(text.trim()));
+  const jsonData = text.split('}').map((record) => {
+    try {
+      return JSON.parse(record + '}');
+    } catch (e) {
+      return {};
+    }
+  }).filter(record => Object.keys(record).length !== 0)
+  return jsonData;
+
 }
 
 export async function getUrl(url) {
@@ -21,7 +29,12 @@ export async function getUrl(url) {
 }
 
 export async function getEnigmaNytimesData() {
-  const urlPostfix = await getUrl(enigmaNytimesDataInUsaBucket);
-  const url = `${s3BaseUrl}/${urlPostfix}`;
-  return await getData(`${s3BaseUrl}/${urlPostfix}`);
+  try {
+    const urlPostfix = await getUrl(enigmaNytimesDataInUsaBucket);
+    const url = `${s3BaseUrl}/${urlPostfix}`;
+    const data = await getData(`${s3BaseUrl}/${urlPostfix}`);
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
 }
