@@ -14,6 +14,8 @@ import {
   StackedBarChart
 } from "react-native-chart-kit";
 
+import { padding } from '../util/constants';
+
 // {"date":"2020-06-23","county":"Montague","state":"Texas","fips":"48337","cases":"14","deaths":"1"}
 // {"date":"2020-06-23","county":"Montgomery","state":"Texas","fips":"48339","cases":"1737","deaths":"34"}
 
@@ -30,14 +32,13 @@ const chartConfig = {
   fillShadowGradient: "#ffffff",
   barPercentage: .5,
 };
-const padding = 10;
+
 const screenWidth = Dimensions.get("window").width;
 const chartWidth = screenWidth - padding * 2;
 
 const graphStyle = {
   marginVertical: 8,
-  borderRadius: 16,
-  padding: padding,
+  borderRadius: 16
 };
 
 export default (props) => {
@@ -71,7 +72,7 @@ export default (props) => {
         height={320}
         // yAxisLabel="deaths"
         chartConfig={chartConfig}
-        verticalLabelRotation={20}
+        // verticalLabelRotation={20}
         fromZero="true"
         withVerticalLabels="true"
       />
