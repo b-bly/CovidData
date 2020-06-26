@@ -25,3 +25,7 @@ export const swapKeysAndValues = (json) => {
   }
   return ret;
 }
+
+export const getAbbreviation = (str) => {
+  return str.match(/\b[a-zA-Z]/g).map(letter => letter.toUpperCase()).join('');
+}

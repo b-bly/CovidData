@@ -13,7 +13,7 @@ import * as customColors from './colors';
 
 export const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: customColors.darkblue, //Colors.lighter,
+    backgroundColor: Colors.lighter, //Colors.lighter,
     height: '100%'
   },
   engine: {

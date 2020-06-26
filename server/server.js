@@ -130,18 +130,21 @@ const getDeathsByDateForState = (data, state) => {
   let stateDictionary = _.groupBy(data, 'state');
   if (!state) {
     // state = Object.keys(stateDictionary)[Object.keys(stateDictionary).length - 1];
-    state = 'Alabama';
+    state = 'Maryland';
   }
   let stateData = _.orderBy(stateDictionary[state], ['date'], ['desc']);
   const groupedByMonth = _.groupBy(stateData, (item) => item.date.substring(0, 7));
   const months = [];
   const deaths = [];
   for (const month in groupedByMonth) {
-    const monthNum = parseInt(month.substring(5, 7));
-    const monthText = monthNames[monthNum];
-    months.push(monthText);
-    const highestDeath = _.maxBy(groupedByMonth[month], o => o.deaths);
-    deaths.push(highestDeath.deaths);
+    const monthStr = month.substring(5, 7);
+    const monthNum = parseInt(monthStr);
+    if (typeof monthNum === 'number') {
+      const monthText = monthNames[monthNum];
+      months.push(monthText);
+      const highestDeath = _.maxBy(groupedByMonth[month], o => o.deaths);
+      deaths.push(highestDeath.deaths);
+    }
   }
   const lineGraphData = {
     labels: months,

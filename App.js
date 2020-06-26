@@ -35,6 +35,7 @@ import {
 import BarGraph from './components/barGraph';
 import { styles } from './style/styles';
 import LineGraph from './components/lineGraph';
+import { modes } from './style/Themes';
 
 const App: () => React$Node = () => {
   const [enigmaNytimesData, setEnigmaNytimesData] = useState(null);
@@ -44,16 +45,19 @@ const App: () => React$Node = () => {
   const [selectedState, setSelectedState] = useState('Alabama');
   let [loading, setLoading] = useState(false);
 
+  const mode = 'dark';
+  const theme = 'blue';
+
   if (!enigmaNytimesData) {
-    getEnigmaNytimesData().then( data => {
+    getEnigmaNytimesData().then(data => {
       setEnigmaNytimesData(data);
       // Without using a copy of data, getCasesByState was returning some states as 'undefined'
       // probably a timing issue that could be solved with redux or extending React.Component 
 
       const dataCopy = data.map(record => ({ ...record }));
       const dataCopy2 = data.map(record => ({ ...record }));
-      const deathsData =  getDeathsByState(data);
-      const casesData =  getCasesByState(dataCopy);
+      const deathsData = getDeathsByState(data.map(record => ({ ...record })));
+      const casesData = getCasesByState(dataCopy);
       const deathsByMonthData = getDeathsByDateForState(dataCopy2, 'Alabama');
       setDeathByState(deathsData);
       setCasesByState(casesData);
@@ -61,16 +65,45 @@ const App: () => React$Node = () => {
     });
   }
 
+  const onSetSelectedState = (state) => {
+    console.log(enigmaNytimesData);
+
+    console.log('selected:')
+    console.log(state)
+    setSelectedState(state);
+    let dataCopy = enigmaNytimesData.map(record => ({ ...record }));
+    let deathsByMonthData = getDeathsByDateForState(dataCopy, state);
+    console.log(deathsByMonthData);
+    if (deathsByMonthData.labels.length < 1) {
+      console.log(dataCopy);
+      deathsByMonthData = getDeathsByDateForState(dataCopy, state);
+    }
+    setDeathsByMonth(deathsByMonthData);
+  }
+
+  const backgroundColor = mode === 'light' ? Colors.lighter : modes.dark[theme].backgroundColor;
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView >
-        <ScrollView style={styles.scrollView}>
+        <ScrollView style={{ ...styles.scrollView, backgroundColor: backgroundColor }}>
           <View style={styles.sectionContainer}>
             {/* <Text style={styles.sectionTitle}>Covid Data</Text> */}
-            <BarGraph data={deathByState} title="Deaths" theme="blue"/>
-            <BarGraph data={casesByState} title="Cases" theme="blue"/>
-            <LineGraph data={deathsByMonth} title="Deaths" selectedState={selectedState} theme="blue" />
+            <BarGraph data={deathByState}
+              title="Deaths"
+              theme={theme}
+              mode={mode} />
+            <BarGraph data={casesByState}
+              title="Cases"
+              theme={theme}
+              mode={mode}  />
+            <LineGraph data={deathsByMonth}
+              title="Deaths by State"
+              theme={theme}
+              mode={mode} 
+              selectedState={selectedState}
+              onSetSelectedState={onSetSelectedState} />
           </View>
         </ScrollView>
       </SafeAreaView>

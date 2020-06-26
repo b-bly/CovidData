@@ -30,3 +30,20 @@ export const Themes = {
   }
 }
 
+export const modes = {
+  dark: {
+    textColor: 'snow',
+    red: {
+      backgroundColor: "#ba0000",
+    },
+    orange: {
+      backgroundColor: "#e26a00",
+    },
+    blue: {
+      backgroundColor: colors.blue,
+    }
+  },
+  light: {
+    textColor: 'black'
+  }
+}

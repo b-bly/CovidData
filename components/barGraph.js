@@ -11,7 +11,7 @@ import {
 
 import { padding } from '../util/constants';
 import { styles } from '../style/styles';
-import { Themes } from '../style/Themes';
+import { Themes, modes } from '../style/Themes';
 
 // {"date":"2020-06-23","county":"Montague","state":"Texas","fips":"48337","cases":"14","deaths":"1"}
 // {"date":"2020-06-23","county":"Montgomery","state":"Texas","fips":"48339","cases":"1737","deaths":"34"}
@@ -48,7 +48,7 @@ export default (props) => {
   return (
     <View>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={styles.sectionTitle}>{props.title}</Text>
+        <Text style={{...styles.sectionTitle, color: modes[props.mode].textColor }}>{props.title}</Text>
       </View>
       <View>
 
@@ -66,8 +66,9 @@ export default (props) => {
             withVerticalLabels="true"
           />
 
+
           :
-          <Text>Loading</Text>
+          <Text style={{ color: modes[props.mode].textColor }}>Loading</Text>
         }
       </View>
     </View>

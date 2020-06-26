@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { swapKeysAndValues, csvToJSON } from '../util/utility';
+import { swapKeysAndValues, csvToJSON, getAbbreviation } from '../util/utility';
 import stateAbbreviations from '../assets/stateAbbreviations.json';
 
 const abbreviationsSwapped = swapKeysAndValues(stateAbbreviations);
@@ -16,10 +16,12 @@ const getMostRecentRecordForEachState = (data) => {
     arr.push(stateDictionary[key]);
   }
   return arr.map(record => {
+    if (!abbreviationsSwapped[record.state]) {
+      record.state = getAbbreviation(record.state);
+    }
     record.state = abbreviationsSwapped[record.state];
     return record;
-  });
-
+  }); 
 }
 
 export const getDeathsByState = (data) => {
@@ -62,9 +64,20 @@ export const getDeathsByDateForState = (data, state) => {
     state = 'Alabama';
   }
   let stateData = _.orderBy(stateDictionary[state], ['date'], ['asc']);
-  const groupedByMonth = _.groupBy(stateData, (item) => item.date.substring(0, 7));
-  const months = [];
-  const deaths = [];
+
+  // stateData.forEach(record => {
+  //   if (!record.deaths || record.deaths < 0) { 
+  //     console.log('****************')
+  //     console.log('deaths number is weird')
+  //     console.log(record.deaths)
+  //     console.log('****************')
+
+  //   }
+  // })
+
+  let groupedByMonth = _.groupBy(stateData, (item) => item.date.substring(0, 7));
+  let months = [];
+  let deaths = [];
   for (const month in groupedByMonth) {
     const monthNum = parseInt(month.substring(5, 7));
     const monthText = monthNames[monthNum];
@@ -76,6 +89,7 @@ export const getDeathsByDateForState = (data, state) => {
     months = months.slice(0, 5);
     deaths = deaths.slice(0, 5);
   }
+
   const lineGraphData = {
     labels: months,
     datasets: [
@@ -87,7 +101,6 @@ export const getDeathsByDateForState = (data, state) => {
     ],
     // legend: ["Rainy Days", "Sunny Days", "Snowy Days"] // optional
   };
-  console.log(lineGraphData)
   return lineGraphData;
 }
 
