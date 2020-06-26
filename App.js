@@ -24,31 +24,53 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { getEnigmaNytimesData } from './services/enigmaNytimesDataInUsaService';
+import {
+  getEnigmaNytimesData,
+  getDeathsByState,
+  getCasesByState,
+  getDeathsByDateForState
+} from './services/enigmaNytimesDataInUsaService';
 
 // Components
 import BarGraph from './components/barGraph';
-import { styles } from './styles'
+import { styles } from './style/styles';
+import LineGraph from './components/lineGraph';
 
 const App: () => React$Node = () => {
   const [enigmaNytimesData, setEnigmaNytimesData] = useState(null);
+  const [deathByState, setDeathByState] = useState(null);
+  const [casesByState, setCasesByState] = useState(null);
+  const [deathsByMonth, setDeathsByMonth] = useState(null);
+  const [selectedState, setSelectedState] = useState('Alabama');
   let [loading, setLoading] = useState(false);
 
   if (!enigmaNytimesData) {
-    getEnigmaNytimesData().then(data => {
-      console.log(data);
+    getEnigmaNytimesData().then( data => {
       setEnigmaNytimesData(data);
+      // Without using a copy of data, getCasesByState was returning some states as 'undefined'
+      // probably a timing issue that could be solved with redux or extending React.Component 
+
+      const dataCopy = data.map(record => ({ ...record }));
+      const dataCopy2 = data.map(record => ({ ...record }));
+      const deathsData =  getDeathsByState(data);
+      const casesData =  getCasesByState(dataCopy);
+      const deathsByMonthData = getDeathsByDateForState(dataCopy2, 'Alabama');
+      setDeathByState(deathsData);
+      setCasesByState(casesData);
+      setDeathsByMonth(deathsByMonthData);
     });
   }
 
-return (
+  return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView >
         <ScrollView style={styles.scrollView}>
           <View style={styles.sectionContainer}>
             {/* <Text style={styles.sectionTitle}>Covid Data</Text> */}
-            <BarGraph data={enigmaNytimesData} title="Deaths" />
+            <BarGraph data={deathByState} title="Deaths" theme="blue"/>
+            <BarGraph data={casesByState} title="Cases" theme="blue"/>
+            <LineGraph data={deathsByMonth} title="Deaths" selectedState={selectedState} theme="blue" />
           </View>
         </ScrollView>
       </SafeAreaView>

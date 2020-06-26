@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import {
-  BarChart,
+  LineChart
 } from "react-native-chart-kit";
 
 import { padding } from '../util/constants';
@@ -27,14 +27,6 @@ const graphStyle = {
 
 export default (props) => {
   const [data, setData] = useState(null);
-
-  // useEffect(() => {
-  //   if (props.data) {
-  //     setData(props.data);
-  //   }
-  // });
-
-  const loading = <Text>Loading</Text>
   const chartConfig = {
     ...Themes[props.theme],
     decimalPlaces: 0, // optional, defaults to 2dp
@@ -48,22 +40,19 @@ export default (props) => {
   return (
     <View>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={styles.sectionTitle}>{props.title}</Text>
+        <Text style={styles.sectionTitle}>{props.title} in {props.selectedState}</Text>
       </View>
       <View>
 
         {props.data ?
 
-          <BarChart
+          <LineChart
             style={graphStyle}
             data={props.data}
             width={chartWidth}
             height={320}
-            // yAxisLabel="deaths"
             chartConfig={chartConfig}
-            // verticalLabelRotation={20}
             fromZero="true"
-            withVerticalLabels="true"
           />
 
           :

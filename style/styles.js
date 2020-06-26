@@ -8,11 +8,13 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import { padding } from './util/constants';
+import { padding } from '../util/constants';
+import * as customColors from './colors';
 
 export const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: Colors.lighter,
+    backgroundColor: customColors.darkblue, //Colors.lighter,
+    height: '100%'
   },
   engine: {
     position: 'absolute',
@@ -28,13 +30,13 @@ export const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
-    color: Colors.black,
+    color: Colors.lighter,
   },
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
     fontWeight: '400',
-    color: Colors.dark,
+    color: Colors.lighter,
   },
   highlight: {
     fontWeight: '700',

@@ -7,6 +7,7 @@ const s3BaseUrl = 'https://covid19-lake.s3.us-east-2.amazonaws.com';
 const enigmaNytimesDataInUsaBucket = 'https://covid19-lake.s3.amazonaws.com/?delimiter=%2F&prefix=enigma-nytimes-data-in-usa%2Fjson%2Fus_states%2F';
 
 export async function getData(url) {
+    // {"date":"2020-06-23","county":"Montgomery","state":"Texas","fips":"48339","cases":"1737","deaths":"34"}
   const res = await fetch(url);
   const text = await res.text();
   const jsonData = text.split('}').map((record) => {
