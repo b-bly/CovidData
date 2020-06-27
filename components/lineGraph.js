@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from 'react-native';
 
 import { Picker } from '@react-native-community/picker';
@@ -46,7 +47,7 @@ export default (props) => {
 
   const stateChoices = Object.keys(abbreviationsSwapped).map((state, i) => {
     return (
-      <Picker.Item label={state} value={state} color={modes[props.mode].textColor} style={{ color: 'snow' }} key={i.toString()}/>
+      <Picker.Item label={state} value={state} color={modes[props.mode].textColor} style={{ color: 'snow' }} key={i.toString()} />
     );
   }
   );
@@ -54,48 +55,37 @@ export default (props) => {
   return (
     <View style={{ display: 'flex', flexDirection: 'column' }}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{...styles.sectionTitle, color: modes[props.mode].textColor }}>{props.title}</Text>
-        <Picker
-          selectedValue={props.selectedState}
-          style={{ width: chartWidth, color: modes[props.mode].textColor }}
-          onValueChange={(itemValue, itemIndex) =>
-            props.onSetSelectedState(itemValue)
-          }>
-          {/* <Picker.Item label="Alabama" value="Alabama" key="1" />
-          <Picker.Item label="Alabama" value="Alabama"  key="2"/> */}
-
-          {stateChoices}
-
-
-        </Picker>
+        <Text style={{ ...styles.sectionTitle, color: modes[props.mode].textColor }}>{props.title}</Text>
       </View>
 
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         {props.data ?
           <View>
-            {props.data.labels.length < 1 
-              || props.data.datasets[0].data.length < 1 
+            {props.data.labels.length < 1
+              || props.data.datasets[0].data.length < 1
               || props.data.length !== props.data.datasets[0].length ?
-              
-              <Text style={{color: modes[props.mode].textColor}}>(No data)</Text>
+              <View style={{ height: 220 }}>
+                <Text style={{ color: modes[props.mode].textColor }}>(No data)</Text>
+              </View>
 
 
-            :
+              :
 
-            <LineChart
-            style={graphStyle}
-            data={props.data}
-            width={chartWidth}
-            height={320}
-            chartConfig={chartConfig}
-            fromZero="true"
-          />
+              <LineChart
+                style={graphStyle}
+                data={props.data}
+                width={chartWidth}
+                height={220}
+                chartConfig={chartConfig}
+                fromZero="true"
+              />
 
             }
           </View>
           :
-
-          <Text style={{color: modes[props.mode].textColor}}>Loading</Text>
+          <View style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', height: 320 }}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
         }
       </View>
     </View>

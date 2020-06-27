@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from 'react-native';
 
 import {
@@ -26,14 +27,6 @@ const graphStyle = {
 };
 
 export default (props) => {
-  const [data, setData] = useState(null);
-
-  // useEffect(() => {
-  //   if (props.data) {
-  //     setData(props.data);
-  //   }
-  // });
-
   const loading = <Text>Loading</Text>
   const chartConfig = {
     ...Themes[props.theme],
@@ -48,7 +41,7 @@ export default (props) => {
   return (
     <View>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{...styles.sectionTitle, color: modes[props.mode].textColor }}>{props.title}</Text>
+        <Text style={{ ...styles.sectionTitle, color: modes[props.mode].textColor }}>{props.title}</Text>
       </View>
       <View>
 
@@ -58,7 +51,7 @@ export default (props) => {
             style={graphStyle}
             data={props.data}
             width={chartWidth}
-            height={320}
+            height={220}
             // yAxisLabel="deaths"
             chartConfig={chartConfig}
             // verticalLabelRotation={20}
@@ -68,8 +61,9 @@ export default (props) => {
 
 
           :
-          <Text style={{ color: modes[props.mode].textColor }}>Loading</Text>
-        }
+          <View style={{  display: 'flex', alignContent: 'center', justifyContent: 'center', height: 220 }}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>}
       </View>
     </View>
   );

@@ -44,6 +44,15 @@ export const modes = {
     }
   },
   light: {
-    textColor: 'black'
+    textColor: 'black',
+    red: {
+      backgroundColor: "snow",
+    },
+    orange: {
+      backgroundColor: "snow",
+    },
+    blue: {
+      backgroundColor: "snow",
+    }
   }
 }

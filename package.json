@@ -9,19 +9,30 @@
     "test": "jest",
     "lint": "eslint .",
     "clean": "react-native clean-project-auto && react-native start -- --reset-cache",
+    "reset-cache": "react-native start -- --reset-cache",
     "clean-metro": "react-native start -- --reset-cache",
     "install-all": "npm install && cd ios && pod install",
     "link-ios": "cd ios && pod install"
   },
   "dependencies": {
+    "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/picker": "^1.6.5",
+    "@react-navigation/drawer": "^5.8.4",
+    "@react-navigation/native": "^5.6.1",
+    "@react-navigation/stack": "^5.6.2",
     "lodash": "^4.17.15",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-chart-kit": "^5.6.1",
     "react-native-dom-parser": "^1.5.3",
     "react-native-dropdown-picker": "^3.0.5",
-    "react-native-svg": "^12.1.0"
+    "react-native-elements": "^2.0.2",
+    "react-native-gesture-handler": "^1.6.1",
+    "react-native-reanimated": "^1.9.0",
+    "react-native-safe-area-context": "^3.0.7",
+    "react-native-screens": "^2.9.0",
+    "react-native-svg": "^12.1.0",
+    "react-native-vector-icons": "^6.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
@@ -31,6 +42,7 @@
     "eslint": "^6.5.1",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.58.0",
+    "react-native-clean-project": "^3.3.0",
     "react-test-renderer": "16.11.0"
   },
   "resolutions": {

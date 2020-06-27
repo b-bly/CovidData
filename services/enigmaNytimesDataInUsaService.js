@@ -64,17 +64,6 @@ export const getDeathsByDateForState = (data, state) => {
     state = 'Alabama';
   }
   let stateData = _.orderBy(stateDictionary[state], ['date'], ['asc']);
-
-  // stateData.forEach(record => {
-  //   if (!record.deaths || record.deaths < 0) { 
-  //     console.log('****************')
-  //     console.log('deaths number is weird')
-  //     console.log(record.deaths)
-  //     console.log('****************')
-
-  //   }
-  // })
-
   let groupedByMonth = _.groupBy(stateData, (item) => item.date.substring(0, 7));
   let months = [];
   let deaths = [];
@@ -95,6 +84,45 @@ export const getDeathsByDateForState = (data, state) => {
     datasets: [
       {
         data: deaths,
+        // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+        // strokeWidth: 2 // optional
+      }
+    ],
+    // legend: ["Rainy Days", "Sunny Days", "Snowy Days"] // optional
+  };
+  return lineGraphData;
+}
+
+
+export const getCasesByDateForState = (data, state) => {
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+  let stateDictionary = _.groupBy(data, 'state');
+  if (!state) {
+    state = 'Alabama';
+  }
+  let stateData = _.orderBy(stateDictionary[state], ['date'], ['asc']);
+  let groupedByMonth = _.groupBy(stateData, (item) => item.date.substring(0, 7));
+  let months = [];
+  let cases = [];
+  for (const month in groupedByMonth) {
+    const monthNum = parseInt(month.substring(5, 7));
+    const monthText = monthNames[monthNum];
+    months.push(monthText);
+    const highestcase = _.maxBy(groupedByMonth[month], o => o.cases);
+    cases.push(highestcase.cases);
+  }
+  if (months.length > 5) {
+    months = months.slice(0, 5);
+    cases = cases.slice(0, 5);
+  }
+
+  const lineGraphData = {
+    labels: months,
+    datasets: [
+      {
+        data: cases,
         // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
         // strokeWidth: 2 // optional
       }

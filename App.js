@@ -5,8 +5,12 @@
  * @format
  * @flow strict-local
  */
+import 'react-native-gesture-handler';
+import React, { useState } from 'react';
+// Navigation
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -25,88 +29,29 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import {
-  getEnigmaNytimesData,
-  getDeathsByState,
-  getCasesByState,
-  getDeathsByDateForState
+  getEnigmaNytimesData
 } from './services/enigmaNytimesDataInUsaService';
+import { modes } from './style/Themes';
+import { styles } from './style/styles';
 
 // Components
-import BarGraph from './components/barGraph';
-import { styles } from './style/styles';
-import LineGraph from './components/lineGraph';
-import { modes } from './style/Themes';
+import StateData from './screens/stateData';
+
 
 const App: () => React$Node = () => {
-  const [enigmaNytimesData, setEnigmaNytimesData] = useState(null);
-  const [deathByState, setDeathByState] = useState(null);
-  const [casesByState, setCasesByState] = useState(null);
-  const [deathsByMonth, setDeathsByMonth] = useState(null);
-  const [selectedState, setSelectedState] = useState('Alabama');
-  let [loading, setLoading] = useState(false);
-
   const mode = 'dark';
   const theme = 'blue';
 
-  if (!enigmaNytimesData) {
-    getEnigmaNytimesData().then(data => {
-      setEnigmaNytimesData(data);
-      // Without using a copy of data, getCasesByState was returning some states as 'undefined'
-      // probably a timing issue that could be solved with redux or extending React.Component 
-
-      const dataCopy = data.map(record => ({ ...record }));
-      const dataCopy2 = data.map(record => ({ ...record }));
-      const deathsData = getDeathsByState(data.map(record => ({ ...record })));
-      const casesData = getCasesByState(dataCopy);
-      const deathsByMonthData = getDeathsByDateForState(dataCopy2, 'Alabama');
-      setDeathByState(deathsData);
-      setCasesByState(casesData);
-      setDeathsByMonth(deathsByMonthData);
-    });
-  }
-
-  const onSetSelectedState = (state) => {
-    console.log(enigmaNytimesData);
-
-    console.log('selected:')
-    console.log(state)
-    setSelectedState(state);
-    let dataCopy = enigmaNytimesData.map(record => ({ ...record }));
-    let deathsByMonthData = getDeathsByDateForState(dataCopy, state);
-    console.log(deathsByMonthData);
-    if (deathsByMonthData.labels.length < 1) {
-      console.log(dataCopy);
-      deathsByMonthData = getDeathsByDateForState(dataCopy, state);
-    }
-    setDeathsByMonth(deathsByMonthData);
-  }
-
-  const backgroundColor = mode === 'light' ? Colors.lighter : modes.dark[theme].backgroundColor;
-
+  const Drawer = createDrawerNavigator();
+  
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView >
-        <ScrollView style={{ ...styles.scrollView, backgroundColor: backgroundColor }}>
-          <View style={styles.sectionContainer}>
-            {/* <Text style={styles.sectionTitle}>Covid Data</Text> */}
-            <BarGraph data={deathByState}
-              title="Deaths"
-              theme={theme}
-              mode={mode} />
-            <BarGraph data={casesByState}
-              title="Cases"
-              theme={theme}
-              mode={mode}  />
-            <LineGraph data={deathsByMonth}
-              title="Deaths by State"
-              theme={theme}
-              mode={mode} 
-              selectedState={selectedState}
-              onSetSelectedState={onSetSelectedState} />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="StateData">
+          <Drawer.Screen name="StateData" component={StateData} />
+          {/* <Drawer.Screen name="Notifications" component={NotificationsScreen} /> */}
+        </Drawer.Navigator>
+      </NavigationContainer>
     </>
   );
 };
@@ -163,3 +108,12 @@ export default App;
 
 // world cases deaths testing
 // https://dj2taa9i652rf.cloudfront.net/
+
+// TODO
+
+// menu - select graph or data source
+// price thingy for data summary
+// graph height screen height minus the rest - take up the slack
+// data squares:  nationally and selected or highest state
+
+// use context instead of screenProps https://reactjs.org/docs/context.html
