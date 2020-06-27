@@ -27,7 +27,7 @@ const getMostRecentRecordForEachState = (data) => {
 export const getDeathsByState = (data) => {
   // {"date":"2020-06-23","county":"Montgomery","state":"Texas","fips":"48339","cases":"1737","deaths":"34"}
   let arr = getMostRecentRecordForEachState(data);
-  arr = _.sortBy(arr, [o => parseInt(o.deaths)], ['asc']).reverse().slice(0, 8);
+  arr = _.sortBy(arr, [o => parseInt(o.deaths)], ['asc']).reverse();
   return {
     labels: arr.map(o => o.state),
     datasets: [{ data: arr.map(o => o.deaths) }]
@@ -46,7 +46,7 @@ export const getDeathsByState = (data) => {
 
 export const getCasesByState = (data) => {
   let arr = getMostRecentRecordForEachState(data);
-  arr = _.sortBy(arr, [o => parseInt(o.cases)], ['asc']).reverse().slice(0, 8);
+  arr = _.sortBy(arr, [o => parseInt(o.cases)], ['asc']).reverse(); // .slice(0, 8)
   
   const result = {
     labels: arr.map(o => o.state),

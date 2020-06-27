@@ -27,7 +27,6 @@ import {
   getCasesByDateForState
 } from '../services/enigmaNytimesDataInUsaService';
 
-
 export default (props) => {
   const mode = 'dark';
   const theme = 'blue'
@@ -44,7 +43,6 @@ export default (props) => {
     const dataCopy2 = data.map(record => ({ ...record }));
     const dataCopy3 = data.map(record => ({ ...record }));
     const dataCopy4 = data.map(record => ({ ...record }));
-
     const deathsData = getDeathsByState(dataCopy);
     const casesData = getCasesByState(dataCopy2);
     const deathsByMonthData = getDeathsByDateForState(dataCopy3, selectedState);
@@ -53,8 +51,6 @@ export default (props) => {
     setCasesByState(casesData);
     setDeathsByMonth(deathsByMonthData);
     setCasesByMonth(casesByMonthData);
-
-    console.log(deathsData);
   }
 
   const onSetSelectedState = (state) => {
@@ -66,21 +62,7 @@ export default (props) => {
     if (!enigmaNytimesData) {
       getEnigmaNytimesData().then(async data => {
         setEnigmaNytimesData(data);
-        // setData(data);    
-
-        const dataCopy = data.map(record => ({ ...record }));
-        const dataCopy2 = data.map(record => ({ ...record }));
-        const dataCopy3 = data.map(record => ({ ...record }));
-        const dataCopy4 = data.map(record => ({ ...record }));
-    
-        const deathsData = getDeathsByState(dataCopy);
-        const casesData = getCasesByState(dataCopy2);
-        const deathsByMonthData = getDeathsByDateForState(dataCopy3, selectedState);
-        const casesByMonthData = getCasesByDateForState(dataCopy4, selectedState);
-        await setDeathByState(deathsData);
-        await setCasesByState(casesData);
-        await setDeathsByMonth(deathsByMonthData);
-        await setCasesByMonth(casesByMonthData);
+        setData(data);    
       });
     }
   }
@@ -118,7 +100,7 @@ export default (props) => {
               theme={theme}
               mode={mode}
               selectedState={selectedState}
-            /> 
+            />
 
           </View >
         </ScrollView >
