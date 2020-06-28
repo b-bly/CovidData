@@ -46,6 +46,7 @@ export default (props) => {
     if (rounded !== yLength) {
       setYLength(rounded);
       sliceData(rounded);
+      setChartWidth(getChartWidth());
     }
   }
 
@@ -55,6 +56,7 @@ export default (props) => {
       dataset.data = [...dataset.data];
       return dataset;
     });
+
     const formattedData = {
       labels: [...props.data.labels].slice(0, yLength),
       datasets: [...datasetsCopy]
@@ -64,6 +66,10 @@ export default (props) => {
         })
     }
     setData(formattedData);
+  }
+
+  const getMaximumValue = () => {
+    return props.data.labels.length > 10 ? 10 : props.data.labels.length;
   }
 
   if (props.data && props.data.datasets.length > 0 && !data) {
@@ -96,9 +102,9 @@ export default (props) => {
               value={yLength}
               onValueChange={(value) => onSetYLength(value)}
               minimumValue={1}
-              maximumValue={props.data.labels.length}
+              maximumValue={getMaximumValue()}
             />
-            <Text>Value: {yLength}</Text>
+
           </View>
         </View>
 

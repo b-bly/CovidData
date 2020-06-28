@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
 
 import { modes } from '../style/Themes';
@@ -8,16 +7,15 @@ import { styles } from '../style/styles';
 import BarGraph from '../components/barGraph';
 import LineGraph from '../components/lineGraph';
 import MyPicker from '../components/myPicker';
-import ScrollLayout from '../components/scrollLayout'
 
 import {
   SafeAreaView,
-  StyleSheet,
   ScrollView,
   View,
-  Text,
   StatusBar,
 } from 'react-native';
+
+import { Button } from 'react-native-elements';
 
 import {
   getEnigmaNytimesData,
@@ -29,24 +27,21 @@ import {
 
 export default (props) => {
   const mode = 'dark';
-  const theme = 'blue'
+  const theme = 'blue';
   const [enigmaNytimesData, setEnigmaNytimesData] = useState(null);
   const [selectedState, setSelectedState] = useState('Alabama');
   const [deathByState, setDeathByState] = useState(null);
   const [casesByState, setCasesByState] = useState(null);
   const [deathsByMonth, setDeathsByMonth] = useState(null);
   const [casesByMonth, setCasesByMonth] = useState(null);
+  const [showPicker, setShowPicker] = useState(false);
 
 
-  const setData = (data) => {
-    const dataCopy = data.map(record => ({ ...record }));
-    const dataCopy2 = data.map(record => ({ ...record }));
-    const dataCopy3 = data.map(record => ({ ...record }));
-    const dataCopy4 = data.map(record => ({ ...record }));
-    const deathsData = getDeathsByState(dataCopy);
-    const casesData = getCasesByState(dataCopy2);
-    const deathsByMonthData = getDeathsByDateForState(dataCopy3, selectedState);
-    const casesByMonthData = getCasesByDateForState(dataCopy4, selectedState);
+  const setData = (data, state) => {
+    const deathsData = getDeathsByState(data.map(record => ({ ...record })));
+    const casesData = getCasesByState(data.map(record => ({ ...record })));
+    const deathsByMonthData = getDeathsByDateForState(data.map(record => ({ ...record })), state);
+    const casesByMonthData = getCasesByDateForState(data.map(record => ({ ...record })), state);
     setDeathByState(deathsData);
     setCasesByState(casesData);
     setDeathsByMonth(deathsByMonthData);
@@ -55,16 +50,20 @@ export default (props) => {
 
   const onSetSelectedState = (state) => {
     setSelectedState(state);
-    setData(enigmaNytimesData);
+    setData(enigmaNytimesData, state);
   }
 
   const onLoad = () => {
     if (!enigmaNytimesData) {
       getEnigmaNytimesData().then(async data => {
         setEnigmaNytimesData(data);
-        setData(data);    
+        setData(data, selectedState);
       });
     }
+  }
+
+  const togglePicker = () => {
+    setShowPicker(!showPicker);
   }
 
   onLoad();
@@ -84,11 +83,26 @@ export default (props) => {
               title="Cases"
               theme={theme}
               mode={mode} />
-            <MyPicker
-              selectedData={selectedState}
-              onSelect={onSetSelectedState}
-              mode={mode}
+              <View style={{ margin: 10 }}>
+
+              <Button
+              title="Select State"
+              type="outline"
+              raised={true}
+              onPress={togglePicker}
             />
+              </View>
+
+            {showPicker &&
+
+              <MyPicker
+                selectedData={selectedState}
+                onSelect={onSetSelectedState}
+                mode={mode}
+              />
+
+            }
+
             <LineGraph data={deathsByMonth}
               title={"Deaths in " + selectedState}
               theme={theme}

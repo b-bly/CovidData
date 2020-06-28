@@ -36,6 +36,7 @@ import { styles } from './style/styles';
 
 // Components
 import StateData from './screens/stateData';
+import USData from './screens/USData'
 
 
 const App: () => React$Node = () => {
@@ -47,9 +48,9 @@ const App: () => React$Node = () => {
   return (
     <>
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="StateData">
+        <Drawer.Navigator initialRouteName="USData">
           <Drawer.Screen name="StateData" component={StateData} />
-          {/* <Drawer.Screen name="Notifications" component={NotificationsScreen} /> */}
+          <Drawer.Screen name="USData" component={USData} />
         </Drawer.Navigator>
       </NavigationContainer>
     </>
