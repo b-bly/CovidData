@@ -12,6 +12,7 @@ import {
 
 import { padding } from '../util/constants';
 import { styles } from '../style/styles';
+import * as colors from '../style/colors';
 import { Themes, modes } from '../style/Themes';
 import { Slider } from 'react-native-elements';
 
@@ -104,6 +105,7 @@ export default (props) => {
               onValueChange={(value) => onSetYLength(value)}
               minimumValue={1}
               maximumValue={getMaximumValue()}
+              thumbTintColor={colors.blue300}
             />
 
           </View>

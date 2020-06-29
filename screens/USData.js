@@ -17,6 +17,7 @@ import {
 
 // Components
 import LineGraphDates from '../components/lineGraphDates';
+import AppNav from '../components/appNav';
 
 export default (props) => {
   const mode = 'dark';
@@ -46,21 +47,26 @@ export default (props) => {
 
   return (
     <View>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView >
+      <StatusBar barStyle={mode === 'dark' ? 'light-content' : 'dark-content'} />
+
+      <SafeAreaView style={{ backgroundColor: modes[mode][theme].backgroundColor }} >
+        <AppNav { ...props } />
         <ScrollView style={{ ...styles.scrollView, backgroundColor: modes[mode][theme].backgroundColor }}>
-          <LineGraphDates data={deaths}
-            title={"Deaths in US"}
-            theme={theme}
-            mode={mode}
-            slider={true}
-          />
-          <LineGraphDates data={cases}
-            title={"Cases in US"}
-            theme={theme}
-            mode={mode}
-            slider={true}
-          />
+          <View style={styles.sectionContainer}>
+
+            <LineGraphDates data={deaths}
+              title={"Deaths in US"}
+              theme={theme}
+              mode={mode}
+              slider={true}
+            />
+            <LineGraphDates data={cases}
+              title={"Cases in US"}
+              theme={theme}
+              mode={mode}
+              slider={true}
+            />
+          </View>
         </ScrollView>
       </SafeAreaView>
     </View>

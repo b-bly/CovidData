@@ -24,9 +24,18 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   sectionContainer: {
-    marginTop: 32,
+    marginTop: 16,
+    marginBottom: 16,
     paddingHorizontal: padding,
   },
+  sectionRow: {
+    marginTop: 6,
+    marginBottom: 6,
+    paddingHorizontal: padding,
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  }, 
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',

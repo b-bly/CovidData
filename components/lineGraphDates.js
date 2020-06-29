@@ -17,6 +17,7 @@ import { Themes, modes } from '../style/Themes';
 import { swapKeysAndValues } from '../util/utility';
 import stateAbbreviations from '../assets/stateAbbreviations.json';
 import { monthNames } from '../util/constants';
+import * as customColors from '../style/colors';
 
 const abbreviationsSwapped = swapKeysAndValues(stateAbbreviations);
 
@@ -133,6 +134,7 @@ export default (props) => {
                       onValueChange={(value) => onSetYLength(value)}
                       minimumValue={1}
                       maximumValue={getMaximumValue()}
+                      thumbTintColor={customColors.blue300}
                     />
                   </View>
                 }

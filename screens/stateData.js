@@ -15,7 +15,9 @@ import {
   StatusBar,
 } from 'react-native';
 
-import { Button } from 'react-native-elements';
+import { Button, colors } from 'react-native-elements';
+import AppNav from '../components/appNav';
+import * as customColors from '../style/colors';
 
 import {
   getEnigmaNytimesData,
@@ -69,9 +71,10 @@ export default (props) => {
   onLoad();
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView >
-        <ScrollView style={{ ...styles.scrollView, backgroundColor: modes[mode][theme].backgroundColor }}>
+      <StatusBar barStyle={mode === 'dark' ? 'light-content' : 'dark-content'} />
+      <SafeAreaView style={{ backgroundColor: modes[mode][theme].backgroundColor }} >
+      <AppNav {...props} />
+        <ScrollView style={{ ...styles.scrollView, backgroundColor: modes[mode][theme].backgroundColor  }}>
           <View style={styles.sectionContainer}>
 
             <BarGraph data={deathByState}
@@ -87,9 +90,10 @@ export default (props) => {
 
               <Button
                 title="Select State"
-                type="outline"
+                // type="outline"
                 raised={true}
                 onPress={togglePicker}
+                buttonStyle={{ backgroundColor: customColors.blue200 }}
               />
             </View>
 

@@ -23,7 +23,7 @@ class App extends React.Component {  //const App: () => React$Node = () => {
   render() {
     return (
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="USData">
+        <Drawer.Navigator initialRouteName="StateData">
           <Drawer.Screen name="StateData" component={StateData} />
           <Drawer.Screen name="USData" component={USData} />
         </Drawer.Navigator>
