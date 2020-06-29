@@ -12,6 +12,7 @@ import { Button } from 'react-native-elements';
 import {
   getDeathsInUSByTime,
   getEnigmaNytimesUSData,
+  getCasesInUSByTime,
 } from '../services/nyTimesUSAService';
 
 // Components
@@ -22,12 +23,14 @@ export default (props) => {
   const theme = 'blue';
   const [enigmaNytimesData, setEnigmaNytimesData] = useState(null);
   const [deaths, setDeaths] = useState(null);
-  const [hidePointsAtIndex, setHidePointsAtIndex] = useState([]);
+  const [cases, setCases] = useState(null);
 
 
   const setData = (data) => {
     let deathsData = getDeathsInUSByTime(data.map(record => ({ ...record })));
     setDeaths(deathsData);
+    let casesData = getCasesInUSByTime(data.map(record => ({ ...record })));
+    setCases(casesData);
   }
 
   const onLoad = () => {
@@ -48,6 +51,12 @@ export default (props) => {
         <ScrollView style={{ ...styles.scrollView, backgroundColor: modes[mode][theme].backgroundColor }}>
           <LineGraphDates data={deaths}
             title={"Deaths in US"}
+            theme={theme}
+            mode={mode}
+            slider={true}
+          />
+          <LineGraphDates data={cases}
+            title={"Cases in US"}
             theme={theme}
             mode={mode}
             slider={true}

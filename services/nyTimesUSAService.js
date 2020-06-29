@@ -12,9 +12,6 @@ export async function getEnigmaNytimesUSData () {
 }
 
 export const getDeathsInUSByTime = (data) => {
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
 
   let dates = data.map(record => record.date);
   let deaths = data.map(record => parseInt(record.deaths));
@@ -24,6 +21,25 @@ export const getDeathsInUSByTime = (data) => {
     datasets: [
       {
         data: deaths,
+        // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+        // strokeWidth: 2 // optional
+      }
+    ],
+    // legend: ["Rainy Days", "Sunny Days", "Snowy Days"] // optional
+  };
+  return lineGraphData;
+}
+
+export const getCasesInUSByTime = (data) => {
+
+  let dates = data.map(record => record.date);
+  let cases = data.map(record => parseInt(record.cases));
+
+  const lineGraphData = {
+    labels: dates,
+    datasets: [
+      {
+        data: cases,
         // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
         // strokeWidth: 2 // optional
       }
