@@ -23,7 +23,7 @@ import {
   getCasesByState,
   getDeathsByDateForState,
   getCasesByDateForState
-} from '../services/enigmaNytimesDataInUsaService';
+} from '../services/nytimesUSStatesService';
 
 export default (props) => {
   const mode = 'dark';
@@ -83,15 +83,15 @@ export default (props) => {
               title="Cases"
               theme={theme}
               mode={mode} />
-              <View style={{ margin: 10 }}>
+            <View style={{ margin: 10 }}>
 
               <Button
-              title="Select State"
-              type="outline"
-              raised={true}
-              onPress={togglePicker}
-            />
-              </View>
+                title="Select State"
+                type="outline"
+                raised={true}
+                onPress={togglePicker}
+              />
+            </View>
 
             {showPicker &&
 
@@ -107,13 +107,11 @@ export default (props) => {
               title={"Deaths in " + selectedState}
               theme={theme}
               mode={mode}
-              selectedState={selectedState}
             />
             <LineGraph data={casesByMonth}
               title={"Cases in " + selectedState}
               theme={theme}
               mode={mode}
-              selectedState={selectedState}
             />
 
           </View >

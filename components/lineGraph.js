@@ -5,18 +5,14 @@ import {
   Dimensions,
   ActivityIndicator
 } from 'react-native';
-
 import { Picker } from '@react-native-community/picker';
-
 import {
   LineChart
 } from "react-native-chart-kit";
-
 import { padding } from '../util/constants';
 import { styles } from '../style/styles';
 import { Themes, modes } from '../style/Themes';
 import { swapKeysAndValues } from '../util/utility';
-
 import stateAbbreviations from '../assets/stateAbbreviations.json';
 const abbreviationsSwapped = swapKeysAndValues(stateAbbreviations);
 
@@ -25,15 +21,10 @@ const abbreviationsSwapped = swapKeysAndValues(stateAbbreviations);
 
 const screenWidth = Dimensions.get("window").width;
 const chartWidth = screenWidth - padding * 2;
-
 const graphStyle = {
   marginVertical: 8,
   borderRadius: 16
 };
-
-// const setSelectedState = (selectedState) => {
-//   props.setSelectedState(selectedState);
-// }
 
 export default (props) => {
   const [data, setData] = useState(null);

@@ -1,9 +1,11 @@
 import _ from 'lodash';
 import { swapKeysAndValues, csvToJSON, getAbbreviation } from '../util/utility';
 import stateAbbreviations from '../assets/stateAbbreviations.json';
+import { getCsvAsJSONFromGithub } from './dataService';
+import { monthNames } from '../util/constants';
 
 const abbreviationsSwapped = swapKeysAndValues(stateAbbreviations);
-const nyTimesUrl = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv';
+const nyTimesStateUrl = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv';
 
 const getMostRecentRecordForEachState = (data) => {
   let stateDictionary = _.groupBy(data, 'state');
@@ -21,7 +23,7 @@ const getMostRecentRecordForEachState = (data) => {
     }
     record.state = abbreviationsSwapped[record.state];
     return record;
-  }); 
+  });
 }
 
 export const getDeathsByState = (data) => {
@@ -47,7 +49,7 @@ export const getDeathsByState = (data) => {
 export const getCasesByState = (data) => {
   let arr = getMostRecentRecordForEachState(data);
   arr = _.sortBy(arr, [o => parseInt(o.cases)], ['asc']).reverse(); // .slice(0, 8)
-  
+
   const result = {
     labels: arr.map(o => o.state),
     datasets: [{ data: arr.map(o => o.cases) }]
@@ -56,9 +58,6 @@ export const getCasesByState = (data) => {
 }
 
 export const getDeathsByDateForState = (data, state) => {
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
   let stateDictionary = _.groupBy(data, 'state');
   if (!state) {
     state = 'Alabama';
@@ -69,10 +68,10 @@ export const getDeathsByDateForState = (data, state) => {
   let deaths = [];
   for (const month in groupedByMonth) {
     const monthNum = parseInt(month.substring(5, 7));
-    const monthText = monthNames[monthNum];
+    const monthText = monthNames[monthNum - 1];
     months.push(monthText);
-    const highestDeath = _.maxBy(groupedByMonth[month], o => o.deaths);
-    deaths.push(highestDeath.deaths);
+    const highestDeath = _.maxBy(groupedByMonth[month], o => parseInt(o.deaths));
+    deaths.push(parseInt(highestDeath.deaths));
   }
   if (months.length > 5) {
     months = months.slice(0, 5);
@@ -95,9 +94,6 @@ export const getDeathsByDateForState = (data, state) => {
 
 
 export const getCasesByDateForState = (data, state) => {
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
   let stateDictionary = _.groupBy(data, 'state');
   if (!state) {
     state = 'Alabama';
@@ -108,10 +104,10 @@ export const getCasesByDateForState = (data, state) => {
   let cases = [];
   for (const month in groupedByMonth) {
     const monthNum = parseInt(month.substring(5, 7));
-    const monthText = monthNames[monthNum];
+    const monthText = monthNames[monthNum - 1];
     months.push(monthText);
     const highestcase = _.maxBy(groupedByMonth[month], o => o.cases);
-    cases.push(highestcase.cases);
+    cases.push(parseInt(highestcase.cases));
   }
   if (months.length > 5) {
     months = months.slice(0, 5);
@@ -133,12 +129,5 @@ export const getCasesByDateForState = (data, state) => {
 }
 
 export async function getEnigmaNytimesData() {
-  try {
-    const res = await fetch(nyTimesUrl);
-    const text = await res.text();
-    const jsonData = csvToJSON(text);
-    return jsonData;
-  } catch (e) {
-    console.log(e);
-  }
+  return await getCsvAsJSONFromGithub(nyTimesStateUrl);
 }

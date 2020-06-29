@@ -46,8 +46,11 @@ export default (props) => {
     if (rounded !== yLength) {
       setYLength(rounded);
       sliceData(rounded);
-      setChartWidth(getChartWidth());
     }
+  }
+
+  const getMaximumValue = () => {
+    return props.data.labels.length > 10 ? 10 : props.data.labels.length;
   }
 
   const sliceData = (newYLength) => {
@@ -58,18 +61,16 @@ export default (props) => {
     });
 
     const formattedData = {
-      labels: [...props.data.labels].slice(0, yLength),
+      labels: [...props.data.labels].slice(0, newYLength),
       datasets: [...datasetsCopy]
         .map(dataset => {
-          dataset.data = [...dataset.data].slice(0, yLength);
-          return dataset;
+          const newDataset = {}
+          newDataset.data = [...dataset.data].slice(0, newYLength);
+          return newDataset;
         })
     }
-    setData(formattedData);
-  }
 
-  const getMaximumValue = () => {
-    return props.data.labels.length > 10 ? 10 : props.data.labels.length;
+    setData(formattedData);
   }
 
   if (props.data && props.data.datasets.length > 0 && !data) {

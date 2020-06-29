@@ -6,55 +6,30 @@
  * @flow strict-local
  */
 import 'react-native-gesture-handler';
-import React, { useState } from 'react';
+import React from 'react';
 // Navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-import {
-  getEnigmaNytimesData
-} from './services/enigmaNytimesDataInUsaService';
-import { modes } from './style/Themes';
-import { styles } from './style/styles';
-
 // Components
 import StateData from './screens/stateData';
 import USData from './screens/USData'
+const Drawer = createDrawerNavigator();
 
+class App extends React.Component {  //const App: () => React$Node = () => {
+  mode = 'dark';
+  theme = 'blue';
 
-const App: () => React$Node = () => {
-  const mode = 'dark';
-  const theme = 'blue';
-
-  const Drawer = createDrawerNavigator();
-  
-  return (
-    <>
+  render() {
+    return (
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="USData">
           <Drawer.Screen name="StateData" component={StateData} />
           <Drawer.Screen name="USData" component={USData} />
         </Drawer.Navigator>
       </NavigationContainer>
-    </>
-  );
+    );
+  }
 };
 
 export default App;
@@ -117,4 +92,4 @@ export default App;
 // graph height screen height minus the rest - take up the slack
 // data squares:  nationally and selected or highest state
 
-// use context instead of screenProps https://reactjs.org/docs/context.html
+// use context ? or redux instead of screenProps https://reactjs.org/docs/context.html
