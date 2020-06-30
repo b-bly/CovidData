@@ -13,7 +13,7 @@ This project was generated with react-native.
 
 - A package manager like [npm](https://www.npmjs.com/)
 - [Node.js](https://nodejs.org/en/)
-- [Watchman] (https://facebook.github.io/watchman/docs/nodejs/)
+- [Watchman](https://facebook.github.io/watchman/docs/nodejs/)
 
 
 ### Installing
