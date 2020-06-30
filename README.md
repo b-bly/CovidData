@@ -1,9 +1,8 @@
 # Covid Data Mobile App
 
-![screenshot](assets/screenshot1.png =250x)
-![screenshot](assets/screenshot2.png =250x)
-![screenshot](assets/screenshot3.png =250x)
-
+<img src="assets/screenshot1.png" width="250">
+<img src="assets/screenshot2.png" width="250">
+<img src="assets/screenshot3.png" width="250">
 ## Setup
 
 Make sure your environment is set up according to the react native [documentation](https://reactnative.dev/docs/environment-setup)
