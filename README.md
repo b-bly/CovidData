@@ -1,8 +1,8 @@
 # Covid Data Mobile App
 
-![screenshot](assets/screenshot1.png)
-![screenshot](assets/screenshot2.png)
-![screenshot](assets/screenshot3.png)
+![screenshot](assets/screenshot1.png =250x)
+![screenshot](assets/screenshot2.png =250x)
+![screenshot](assets/screenshot3.png =250x)
 
 ## Setup
 
