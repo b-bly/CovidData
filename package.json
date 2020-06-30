@@ -12,7 +12,8 @@
     "reset-cache": "react-native start -- --reset-cache",
     "clean-metro": "react-native start -- --reset-cache",
     "install-all": "npm install && cd ios && pod install",
-    "link-ios": "cd ios && pod install"
+    "link-ios": "cd ios && pod install",
+    "build": "webpack --mode production"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
@@ -32,7 +33,8 @@
     "react-native-safe-area-context": "^3.0.7",
     "react-native-screens": "^2.9.0",
     "react-native-svg": "^12.1.0",
-    "react-native-vector-icons": "^6.6.0"
+    "react-native-vector-icons": "^6.6.0",
+    "react-native-webview": "^10.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
