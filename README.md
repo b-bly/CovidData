@@ -1,5 +1,9 @@
 # Covid Data Mobile App
 
+![screenshot](assets/screenshot1.png)
+![screenshot](assets/screenshot2.png)
+![screenshot](assets/screenshot3.png)
+
 ## Setup
 
 Make sure your environment is set up according to the react native [documentation](https://reactnative.dev/docs/environment-setup)

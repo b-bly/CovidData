@@ -13,7 +13,8 @@
     "clean-metro": "react-native start -- --reset-cache",
     "install-all": "npm install && cd ios && pod install",
     "link-ios": "cd ios && pod install",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "open-readme": "cat README.md | pandoc -f markdown_github | browser"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
